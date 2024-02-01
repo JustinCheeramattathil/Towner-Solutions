@@ -102,6 +102,7 @@ class AddScreen extends StatelessWidget {
                     )
                   : CustomButton(onPressed: () async {
                       await value.addToFirestore(
+                        
                           name: modelController.text,
                           colors: colorController.text,
                           image: serviceController.image,

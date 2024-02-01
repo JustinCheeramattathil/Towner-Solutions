@@ -8,7 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:towner/models/vechile_model.dart';
 
-class FirebaseController extends ChangeNotifier{
+class FirebaseController extends ChangeNotifier {
   //Creating the instance of firestore
   final firestore = FirebaseFirestore.instance;
   //Creating the instance of firestorage
@@ -28,8 +28,9 @@ class FirebaseController extends ChangeNotifier{
     return downloadUrl;
   }
 
-  //This function is used to add the data to firestore
+  //This function is used to add the datao firestore
   Future<void> addToFirestore({
+    
     required String name,
     required String colors,
     required File? image,
@@ -37,6 +38,18 @@ class FirebaseController extends ChangeNotifier{
     required String year,
     required BuildContext context,
   }) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: Color.fromARGB(255, 20, 0, 2),
+            strokeWidth: 6,
+            strokeAlign: 3,
+          ),
+        );
+      },
+    );
     try {
       String downloadUrl = await storeFileToFirebase(image!);
       log(downloadUrl);
@@ -49,8 +62,8 @@ class FirebaseController extends ChangeNotifier{
         manufactureYear: year,
       );
       await firestore.collection('vechiles').doc().set(vechile.toMap());
-     
-       _isAddingData = false;
+
+      _isAddingData = false;
       notifyListeners();
       Navigator.pushReplacementNamed(context, '/home');
       log('data added successfully');
@@ -72,5 +85,16 @@ class FirebaseController extends ChangeNotifier{
         return vechiles;
       },
     );
+  }
+
+  // This function is used to delete data from firestore
+  Future<void> deleteFromFirestore(String documentId) async {
+    try {
+      await firestore.collection('vechiles').doc(documentId).delete();
+      log('Data deleted successfully');
+    } catch (e) {
+      log('Error in deleting data: $e');
+      throw Exception(e);
+    }
   }
 }

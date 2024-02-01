@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:towner/controller/firebase_controller.dart';
 import 'package:towner/controller/service_controller.dart';
 import 'package:towner/firebase_options.dart';
 import 'package:towner/screens/add_image_screen.dart';
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => ServiceController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FirebaseController(),
         ),
       ],
       child: MaterialApp(

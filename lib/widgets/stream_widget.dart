@@ -3,12 +3,14 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:towner/controller/firebase_controller.dart';
 import 'package:towner/models/vechile_model.dart';
+import 'package:towner/screens/details_screen.dart';
 
 class StreamWidget extends StatelessWidget {
   const StreamWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final firebaseController = Provider.of<FirebaseController>(context);
     return StreamBuilder(
       stream: Provider.of<FirebaseController>(context).getVechilesStream(),
       builder: (context, snapshot) {
@@ -96,17 +98,33 @@ class StreamWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: NetworkImage(vechile.image),
-                                  fit: BoxFit.fill),
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailScreen(
+                                  image: vechile.image,
+                                  model: vechile.model,
+                                  color: vechile.color,
+                                  wheelType: vechile.wheelType,
+                                  year: vechile.manufactureYear,
+                                ),
+                              ));
+                        },
+                        
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(vechile.image),
+                                    fit: BoxFit.fill),
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white),
+                          ),
                         ),
                       ),
                     ],
