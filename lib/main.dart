@@ -25,12 +25,13 @@ class MyApp extends StatelessWidget {
           create: (context) => ServiceController(),
         ),
       ],
-      child:  MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Towner Solutions',
         home: const HomeScreen(),
         routes: {
-          '/addscreen':(context) =>  AddScreen()
+          '/addscreen': (context) => AddScreen(),
+          '/home': (context) => const HomeScreen()
         },
       ),
     );

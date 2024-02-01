@@ -31,11 +31,12 @@ class DateTextfield extends StatelessWidget {
           ],
         ),
         child: TextField(
+          keyboardType: TextInputType.datetime,
           controller: controller,
           obscureText: obscureText,
           decoration: InputDecoration(
-            suffixIcon:
-                InkWell(onTap: onPressed, child: const Icon(Icons.calendar_month)),
+            // suffixIcon: InkWell(
+            //     onTap: onPressed, child: const Icon(Icons.calendar_month)),
             enabledBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               borderSide: BorderSide(color: Colors.white),

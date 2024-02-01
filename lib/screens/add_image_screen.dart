@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:towner/controller/service_controller.dart';
@@ -44,7 +46,7 @@ class AddScreen extends StatelessWidget {
               ),
             ),
             MaterialButton(
-              onPressed: () async{
+              onPressed: () async {
                 await serviceController.pickImage();
               },
               color: Colors.purple,
@@ -80,10 +82,8 @@ class AddScreen extends StatelessWidget {
               height: 10,
             ),
             DateTextfield(
-              controller: TextEditingController(
-                text: serviceController.getFormattedDate(),
-              ),
-              hintText: 'Manufacture date',
+              controller: dateController,
+              hintText: 'Manufactured year',
               obscureText: false,
               onPressed: () {
                 serviceController.selectDate(context, serviceController);
@@ -92,7 +92,21 @@ class AddScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            CustomButton(onPressed: () {})
+            Consumer<ServiceController>(
+              builder: (context, value, child) =>CustomButton(onPressed: ()async {
+               await value.addToFirestore(
+                    name: modelController.text,
+                    colors: colorController.text,
+                    image: serviceController.image,
+                    wheeltype: wheelTypeController.text,
+                    year: dateController.text,
+                    context: context);
+                modelController.clear();
+                colorController.clear();
+                wheelTypeController.clear();
+                dateController.clear();
+              }),
+            )
           ],
         ),
       ),
