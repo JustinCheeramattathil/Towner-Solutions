@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:towner/controller/service_controller.dart';
+import 'package:towner/controller/firebase_controller.dart';
 import 'package:towner/models/vechile_model.dart';
 
 class StreamWidget extends StatelessWidget {
@@ -10,7 +10,7 @@ class StreamWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Provider.of<ServiceController>(context).getVechilesStream(),
+      stream: Provider.of<FirebaseController>(context).getVechilesStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

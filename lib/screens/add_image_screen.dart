@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:towner/controller/firebase_controller.dart';
 import 'package:towner/controller/service_controller.dart';
 import 'package:towner/widgets/custom_button.dart';
 import 'package:towner/widgets/custom_text_field.dart';
@@ -17,6 +18,7 @@ class AddScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final serviceController = Provider.of<ServiceController>(context);
+    final firebaseController = Provider.of<FirebaseController>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -93,8 +95,8 @@ class AddScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Consumer<ServiceController>(
-              builder: (context, value, child) => serviceController.isAddingData
+            Consumer<FirebaseController>(
+              builder: (context, value, child) => firebaseController.isAddingData
                   ? const CircularProgressIndicator(
                       color: Color.fromARGB(255, 20, 0, 2),
                     )
