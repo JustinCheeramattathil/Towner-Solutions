@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "604350170249",
+    "project_id": "townersolutions-a6d1b",
+    "storage_bucket": "townersolutions-a6d1b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604350170249:android:25d16c99b143ee0f2a7258",
+        "android_client_info": {
+          "package_name": "com.example.towner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAv6kGgaAE-qoZhdi06EFQvgxGtU7f2qX0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
