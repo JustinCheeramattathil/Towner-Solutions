@@ -107,4 +107,17 @@ class ServiceController extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  Stream<List<VechileModel>> getVechilesStream() {
+    return firestore.collection('vechiles').snapshots().map(
+      (QuerySnapshot querySnapshot) {
+        List<VechileModel> vechiles = [];
+        querySnapshot.docs.forEach((DocumentSnapshot document) {
+          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+          vechiles.add(VechileModel.fromMap(data));
+        });
+        return vechiles;
+      },
+    );
+  }
 }
