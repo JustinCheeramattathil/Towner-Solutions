@@ -13,6 +13,8 @@ class ServiceController extends ChangeNotifier {
   DateTime? _selectedDate;
 
   DateTime? get selectedDate => _selectedDate;
+  bool _isAddingData = false;
+  bool get isAddingData => _isAddingData;
 
 //Creating the instance of firestore
   final firestore = FirebaseFirestore.instance;
@@ -20,14 +22,14 @@ class ServiceController extends ChangeNotifier {
   final firebaseStorage = FirebaseStorage.instance;
 
 //Making an image varialble private
-  File? _selectedImage;
+  File? _pickedImage;
 
 //Accessing the private image variable
-  File? get image => _selectedImage;
+  File? get image => _pickedImage;
 
 //This function is used to set the image
   void setImage(File? image) {
-    _selectedImage = image;
+    _pickedImage = image;
     notifyListeners();
   }
 
@@ -37,6 +39,12 @@ class ServiceController extends ChangeNotifier {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage == null) return;
     setImage(File(pickedImage.path));
+  }
+
+//This is the function to clear the picked image
+  void clearPickedImage() {
+    _pickedImage = null;
+    notifyListeners();
   }
 
 //This function used to get the picked date
@@ -99,6 +107,9 @@ class ServiceController extends ChangeNotifier {
         manufactureYear: year,
       );
       await firestore.collection('vechiles').doc().set(vechile.toMap());
+     
+       _isAddingData = false;
+      notifyListeners();
       Navigator.pushReplacementNamed(context, '/home');
       log('data added successfully');
     } catch (e) {
@@ -112,10 +123,10 @@ class ServiceController extends ChangeNotifier {
     return firestore.collection('vechiles').snapshots().map(
       (QuerySnapshot querySnapshot) {
         List<VechileModel> vechiles = [];
-        querySnapshot.docs.forEach((DocumentSnapshot document) {
+        for (var document in querySnapshot.docs) {
           Map<String, dynamic> data = document.data() as Map<String, dynamic>;
           vechiles.add(VechileModel.fromMap(data));
-        });
+        }
         return vechiles;
       },
     );

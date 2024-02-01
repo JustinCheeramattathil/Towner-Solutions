@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:towner/controller/service_controller.dart';
@@ -30,18 +28,21 @@ class AddScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 4),
-                borderRadius: BorderRadius.circular(30),
-                image: DecorationImage(
-                  image: serviceController.image != null
-                      ? FileImage(serviceController.image!)
-                      : const AssetImage('assets/images/dummy.jpg')
-                          as ImageProvider,
-                  fit: BoxFit.cover,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey, width: 4),
+                  borderRadius: BorderRadius.circular(30),
+                  image: DecorationImage(
+                    image: serviceController.image != null
+                        ? FileImage(serviceController.image!)
+                        : const AssetImage('assets/images/dummy.jpg')
+                            as ImageProvider,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),
@@ -49,7 +50,7 @@ class AddScreen extends StatelessWidget {
               onPressed: () async {
                 await serviceController.pickImage();
               },
-              color: Colors.purple,
+              color: const Color.fromARGB(255, 20, 0, 2),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5)),
               child: const Text(
@@ -93,19 +94,24 @@ class AddScreen extends StatelessWidget {
               height: 20,
             ),
             Consumer<ServiceController>(
-              builder: (context, value, child) =>CustomButton(onPressed: ()async {
-               await value.addToFirestore(
-                    name: modelController.text,
-                    colors: colorController.text,
-                    image: serviceController.image,
-                    wheeltype: wheelTypeController.text,
-                    year: dateController.text,
-                    context: context);
-                modelController.clear();
-                colorController.clear();
-                wheelTypeController.clear();
-                dateController.clear();
-              }),
+              builder: (context, value, child) => serviceController.isAddingData
+                  ? const CircularProgressIndicator(
+                      color: Color.fromARGB(255, 20, 0, 2),
+                    )
+                  : CustomButton(onPressed: () async {
+                      await value.addToFirestore(
+                          name: modelController.text,
+                          colors: colorController.text,
+                          image: serviceController.image,
+                          wheeltype: wheelTypeController.text,
+                          year: dateController.text,
+                          context: context);
+                      modelController.clear();
+                      colorController.clear();
+                      wheelTypeController.clear();
+                      dateController.clear();
+                      serviceController.clearPickedImage();
+                    }),
             )
           ],
         ),
