@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:towner/controller/service_controller.dart';
 import 'package:towner/widgets/custom_button.dart';
 import 'package:towner/widgets/custom_text_field.dart';
 import 'package:towner/widgets/date_text_field.dart';
@@ -14,6 +16,7 @@ class AddScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final serviceController = Provider.of<ServiceController>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -25,13 +28,26 @@ class AddScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const CircleAvatar(
-              radius: 100,
-              backgroundColor: Colors.purple,
+            Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey, width: 4),
+                borderRadius: BorderRadius.circular(30),
+                image: DecorationImage(
+                  image: serviceController.image != null
+                      ? FileImage(serviceController.image!)
+                      : const AssetImage('assets/images/dummy.jpg')
+                          as ImageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             MaterialButton(
-              onPressed: () {},
-              color: Colors.blue,
+              onPressed: () async{
+                await serviceController.pickImage();
+              },
+              color: Colors.purple,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5)),
               child: const Text(
@@ -64,10 +80,14 @@ class AddScreen extends StatelessWidget {
               height: 10,
             ),
             DateTextfield(
-              controller: dateController,
+              controller: TextEditingController(
+                text: serviceController.getFormattedDate(),
+              ),
               hintText: 'Manufacture date',
               obscureText: false,
-              onPressed: () {},
+              onPressed: () {
+                serviceController.selectDate(context, serviceController);
+              },
             ),
             const SizedBox(
               height: 20,
